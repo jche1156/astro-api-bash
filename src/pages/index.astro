@@ -1,0 +1,31 @@
+---
+export const prerender = false;
+
+import LikePanel from "../components/LikePanel.astro"
+import LikeButton from "../components/LikeButton.astro";
+const featuredArticles = [
+	"delicious_chili",
+	"manhattan_hot_dogs",
+	"carnitas_tacos",
+	"traditional_pasta_sauce",
+	"fried_chicken",
+	"caesar_salad",
+	"apple_pie"
+];
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<script src="https://unpkg.com/htmx.org@2.0.0" integrity="sha384-wS5l5IKJBvK6sPTKa2WZ1js3d947pvWXbPJ1OmWfEuxLgeHcEbjUUA5i9V5ZkpCw" crossorigin="anonymous"></script>		
+		<title>Astro</title>
+	</head>
+	<body>
+		{featuredArticles.map((slug) => 
+			<LikePanel article_slug={slug} />
+		)}
+	</body>
+</html>

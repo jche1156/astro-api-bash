@@ -1,0 +1,38 @@
+---
+export const prerender = false;
+const { article_slug } = Astro.props;
+import { createClient } from '@supabase/supabase-js';
+const supabaseUrl = await (import.meta.env.SECRET_SUPABASE_URL);
+const supabaseKey = await (import.meta.env.SECRET_SUPABASE_KEY);
+const supabase = createClient(supabaseUrl, supabaseKey)
+
+let { data: articleStats, error } = await supabase
+  .from('article_stats')
+  .select("*")
+  .eq('article_slug', article_slug)
+
+let articleData = JSON.stringify(articleStats[0])
+---
+<div x-data={articleData}>
+  <input 
+    type="checkbox"
+    class="btn rounded-xl w-32 text-lg items-center justify-center"
+    aria-label="👍"
+    :aria-label="'👍 ' + likes"
+    @change="likes += ($event.target.checked) ? +1 : -1; fetch(`/api/reactions/${article_slug}/likes/${($event.target.checked) ? 'incr' : 'decr'}`)"
+  >
+  <input 
+    type="checkbox"
+    class="btn rounded-xl w-32 text-xl items-center justify-center"
+    aria-label="👎"
+    :aria-label="'👎 ' + dislikes"
+    @change="dislikes += ($event.target.checked) ? +1 : -1; fetch(`/api/reactions/${article_slug}/dislikes/${($event.target.checked) ? 'incr' : 'decr'}`)"
+  >
+  <input 
+    type="checkbox"
+    class="btn rounded-xl w-32 text-xl items-center justify-center"
+    aria-label="❤️"
+    :aria-label="'❤️ ' + hearts"
+    @change="hearts += ($event.target.checked) ? +1 : -1; fetch(`/api/reactions/${article_slug}/hearts/${($event.target.checked) ? 'incr' : 'decr'}`)"
+  >
+<div>

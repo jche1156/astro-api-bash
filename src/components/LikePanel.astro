@@ -1,0 +1,32 @@
+---
+import LikeButton from "./LikeButton.astro"
+import LikeCaption from "./LikeCaption.astro"
+
+const {article_slug} = Astro.props;
+const placeholderEmojis = [
+	"👍",
+	"👎",
+	"❤️"
+];
+---
+<div class="w-3/5 min-w-[480px] mx-auto py-20 px-8 outline outline-2 my-10 flex flex-col items-center rounded-3xl">
+	<div id="imagePlaceHolder" class="h-96 w-96 grid grid-cols-1 grid-rows-1 outline outline-1 rounded-sm">
+		<p class="inline-block mx-auto my-auto place-self-center">Image Goes Here</p>
+	</div>
+	<LikeCaption article_slug={article_slug} server:defer>
+		<div slot="fallback" class="">
+			<h1 class="text-xl py-4 h-20">Reactions</h1>
+		</div>
+	</LikeCaption>
+	<LikeButton article_slug={article_slug} server:defer>
+		<div slot="fallback">
+		  {placeholderEmojis.map((symbol)  =>
+			 <input 
+			    type="checkbox"
+			    class="btn rounded-xl w-32 text-lg items-center justify-center btn-disabled"
+			    aria-label={symbol}
+			 />
+			)}
+		</div>
+	</LikeButton>
+</div>
